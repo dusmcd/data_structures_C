@@ -16,14 +16,32 @@ int *createNodeArray(int size, int *givenArray);
 int main(void)
 {
   int nodes = getNumberOfNodes();
-  int nodeArray[nodes];
+  int *nodeArray = (int *)malloc(nodes * sizeof(int));
+  struct node *HEAD;
+  struct node *currentNode;
+  struct node *nextNode;
+
+  if (!nodeArray)
+  {
+    exit(1);
+    return -1;
+  }
   createNodeArray(nodes, nodeArray);
 
-  for (int i = 0; i < nodes; i++)
+  HEAD = giveValue(createNode(), *nodeArray);
+  currentNode = HEAD;
+
+  for (int i = 1; i < nodes; i++)
   {
-    printf("nodeArray[%d]: %d\n", i, nodeArray[i]);
+    nextNode = giveValue(createNode(), *(nodeArray + i));
+    giveNext(currentNode, nextNode);
+    printf(" --- \n");
+    printf("| %d  | => | %p |\n", currentNode->value, currentNode->next);
+    printf(" --- \n");
+    currentNode = currentNode->next;
   }
 
+  free(nodeArray);
   return 0;
 }
 
@@ -55,7 +73,7 @@ int getNumberOfNodes()
 
 int *createNodeArray(int size, int *givenArray)
 {
-  printf("Enter node values (press enter after each entry): ");
+  printf("Enter node values (press enter after each entry):\n");
   for (int i = 0; i < size; i++)
   {
     scanf("%i", givenArray);
