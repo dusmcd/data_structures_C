@@ -31,14 +31,16 @@ int main(void)
   HEAD = giveValue(createNode(), *nodeArray);
   currentNode = HEAD;
 
-  for (int i = 1; i < nodes; i++)
+  for (int i = 1; i <= nodes; i++)
   {
     nextNode = giveValue(createNode(), *(nodeArray + i));
     giveNext(currentNode, nextNode);
     printf(" --- \n");
     printf("| %d  | => | %p |\n", currentNode->value, currentNode->next);
     printf(" --- \n");
+    struct node *temp = currentNode;
     currentNode = currentNode->next;
+    free(temp);
   }
 
   free(nodeArray);
